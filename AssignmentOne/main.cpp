@@ -20,6 +20,7 @@ int main() {
                     airplane.displayAvailableSeats();
                 }
             }
+
         } else if (command == "book") {
             std::string date, flightNumber, passengerName;
             int row, seat;
@@ -30,27 +31,49 @@ int main() {
                     airplane.bookSeat(row, seat, passengerName);
                 }
             }
+
         } else if (command == "return") {
-            std::string date, flightNumber;
-            int row, seat;
-            std::cin >> date >> flightNumber >> row >> seat;
+            std::string ticketID;
+            std::cin >> ticketID;
 
-            for (auto &airplane: airplanes) {
-                if (airplane.getDate() == date && airplane.getFlightNumber() == flightNumber) {
-                    airplane.returnSeat(row, seat);
+            for (auto &airplane : airplanes) {
+                const std::vector<Ticket>& tickets = airplane.getBookedTickets();
+                for (const auto &ticket : tickets) {
+                    if (ticket.getTicketID() == ticketID && ticket.getBookingStatus()) {
+                        airplane.returnSeat(ticket.getRow(), ticket.getSeat());
+                        break;
+                    }
                 }
             }
+
         } else if (command == "view") {
-            std::string date, flightNumber;
-            std::cin >> date >> flightNumber;
+            std::string param;
+            std::cin >> param;
 
-            for (const auto &airplane : airplanes) {
-                if (airplane.getDate() == date && airplane.getFlightNumber() == flightNumber) {
-                    airplane.viewTickets();
+            if (param == "username") {
+                std::string username;
+                std::cin >> username;
+
+                for (const auto &airplane : airplanes) {
+                    airplane.viewTicketsByUsername(username);
                 }
+
+            } else if (param == "flight") {
+                std::string flightNumber, date;
+                std::cin >> flightNumber >> date;
+
+                for (const auto &airplane : airplanes) {
+                    if (airplane.getDate() == date && airplane.getFlightNumber() == flightNumber) {
+                        airplane.viewTickets();
+                    }
+                }
+            } else {
+                std::cout << "Unknown view option!" << std::endl;
             }
+
         } else if (command == "exit") {
             break;
+
         } else {
             std::cout << "Unknown command!" << std::endl;
         }

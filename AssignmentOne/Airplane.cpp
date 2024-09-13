@@ -17,6 +17,42 @@ Airplane::Airplane(const std::string &flightNumber, const std::string &date, int
     seatAvailability = std::vector<std::vector<bool>>(rows, std::vector<bool>(seatsPerRow, false));
 }
 
+std::string Airplane::getFlightNumber() const {
+    return flightNumber;
+}
+
+std::string Airplane::getDate() const {
+    return date;
+}
+
+void Airplane::viewTickets() const {
+    std::cout << "Booked tickets for flight " << flightNumber << " on " << date << ":" << std::endl;
+    for (const auto &ticket : bookedTickets) {
+        if (ticket.getBookingStatus()) {
+            std::cout << "Passenger: " << ticket.getPassengerName()
+                      << ", Seat: Row " << ticket.getRow() << ", Seat " << ticket.getSeat()
+                      << ", Ticket ID: " << ticket.getTicketID() << std::endl;
+        }
+    }
+}
+
+void Airplane::viewTicketsByUsername(const std::string &username) const {
+    std::cout << "Bookings for user " << username << ":" << std::endl;
+    int count = 0;
+
+    for (const auto &ticket : bookedTickets) {
+        if (ticket.getPassengerName() == username && ticket.getBookingStatus()) {
+            std::cout << ++count << ". Flight " << flightNumber << ", " << date
+                      << ", Seat: " << ticket.getRow() << ticket.getSeat()
+                      << ", Price: " << getPriceForRow(ticket.getRow()) << std::endl;
+        }
+    }
+
+    if (count == 0) {
+        std::cout << "No bookings found for " << username << std::endl;
+    }
+}
+
 std::string Airplane::getPriceForRow(int row) const {
     for (const auto &range : pricing) {
         std::string rowRange = range.first;
@@ -71,7 +107,10 @@ bool Airplane::returnSeat(int row, int seat) {
         for (auto &ticket : bookedTickets) {
             if (ticket.getRow() == row + 1 && ticket.getSeat() == seat + 1 && ticket.getBookingStatus()) {
                 ticket.setBookingStatus(false);
+                std::string refundAmount = getPriceForRow(row + 1);
                 std::cout << "Ticket returned successfully!" << std::endl;
+                std::cout << "Confirmed " << refundAmount << " refund for " << ticket.getPassengerName() << std::endl;
+
                 return true;
             }
         }
@@ -80,6 +119,10 @@ bool Airplane::returnSeat(int row, int seat) {
     }
     std::cerr << "Seat not found or not booked!" << std::endl;
     return false;
+}
+
+const std::vector<Ticket>& Airplane::getBookedTickets() const {
+    return bookedTickets;
 }
 
 void Airplane::displayAvailableSeats() const {
@@ -91,23 +134,4 @@ void Airplane::displayAvailableSeats() const {
         }
         std::cout << "(Price: " << getPriceForRow(i + 1) << ")" << std::endl;
     }
-}
-
-void Airplane::viewTickets() const {
-    std::cout << "Booked tickets for flight " << flightNumber << " on " << date << ":" << std::endl;
-    for (const auto &ticket : bookedTickets) {
-        if (ticket.getBookingStatus()) {
-            std::cout << "Passenger: " << ticket.getPassengerName()
-                      << ", Seat: Row " << ticket.getRow() << ", Seat " << ticket.getSeat()
-                      << ", Ticket ID: " << ticket.getTicketID() << std::endl;
-        }
-    }
-}
-
-std::string Airplane::getFlightNumber() const {
-    return flightNumber;
-}
-
-std::string Airplane::getDate() const {
-    return date;
 }
