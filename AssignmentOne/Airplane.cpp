@@ -2,7 +2,7 @@
 #include <iostream>
 
 Airplane::Airplane(const std::string &flightNumber, const std::string &date, int seatsPerRow, const std::vector<std::pair<std::string, std::string>> &pricing)
-        : flightNumber(flightNumber), date(date), seatsPerRow(seatsPerRow), pricing(pricing) {
+        : flightNumber(flightNumber), date(date), seatsPerRow(seatsPerRow), pricing(pricing), nextTicketID(1000) {
 
     rows = 0;
     for (const auto &range : pricing) {
@@ -15,6 +15,21 @@ Airplane::Airplane(const std::string &flightNumber, const std::string &date, int
     }
 
     seatAvailability = std::vector<std::vector<bool>>(rows, std::vector<bool>(seatsPerRow, false));
+}
+
+std::string Airplane::getPriceForRow(int row) const {
+    for (const auto &range : pricing) {
+        std::string rowRange = range.first;
+        size_t dashPos = rowRange.find('-');
+        if (dashPos != std::string::npos) {
+            int startRow = std::stoi(rowRange.substr(0, dashPos));
+            int endRow = std::stoi(rowRange.substr(dashPos + 1));
+            if (row >= startRow && row <= endRow) {
+                return range.second;
+            }
+        }
+    }
+    return "Unknown";
 }
 
 bool Airplane::isSeatAvailable(int row, int seat) const {
@@ -35,10 +50,11 @@ bool Airplane::bookSeat(int row, int seat, const std::string &passengerName) {
     if (isSeatAvailable(row + 1, seat + 1)) {
         seatAvailability[row][seat] = true;
 
-        Ticket ticket(passengerName, flightNumber, date, row + 1, seat + 1);
+        std::string ticketID = std::to_string(nextTicketID++);
+        Ticket ticket(passengerName, flightNumber, date, row + 1, seat + 1, ticketID);
         bookedTickets.push_back(ticket);
 
-        std::cout << "Seat booked successfully for " << passengerName << std::endl;
+        std::cout << "Booking confirmed for " << passengerName << " with Ticket ID: " << ticketID << std::endl;
         return true;
     }
     std::cerr << "Seat not available!" << std::endl;
@@ -70,9 +86,10 @@ void Airplane::displayAvailableSeats() const {
     std::cout << "Available seats for flight " << flightNumber << " on " << date << ":" << std::endl;
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < seatsPerRow; ++j) {
-            std::cout << (seatAvailability[i][j] ? "X" : "O") << " ";  // X for booked, O for available
+            std::string seatDisplay = seatAvailability[i][j] ? "X" : "O";
+            std::cout << seatDisplay << " ";
         }
-        std::cout << std::endl;
+        std::cout << "(Price: " << getPriceForRow(i + 1) << ")" << std::endl;
     }
 }
 
@@ -81,7 +98,8 @@ void Airplane::viewTickets() const {
     for (const auto &ticket : bookedTickets) {
         if (ticket.getBookingStatus()) {
             std::cout << "Passenger: " << ticket.getPassengerName()
-                      << ", Seat: Row " << ticket.getRow() << ", Seat " << ticket.getSeat() << std::endl;
+                      << ", Seat: Row " << ticket.getRow() << ", Seat " << ticket.getSeat()
+                      << ", Ticket ID: " << ticket.getTicketID() << std::endl;
         }
     }
 }

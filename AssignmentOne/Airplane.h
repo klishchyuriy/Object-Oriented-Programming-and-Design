@@ -11,9 +11,11 @@ private:
     std::string date;
     int rows;
     int seatsPerRow;
+    int nextTicketID;
     std::vector<std::vector<bool>> seatAvailability;
     std::vector<Ticket> bookedTickets;
     std::vector<std::pair<std::string, std::string>> pricing;
+    std::string getPriceForRow(int row) const;
 
 public:
     Airplane(const std::string &flightNumber, const std::string &date, int seatsPerRow, const std::vector<std::pair<std::string, std::string>> &pricing);

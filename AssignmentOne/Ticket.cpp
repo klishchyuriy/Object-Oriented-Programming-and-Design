@@ -1,7 +1,7 @@
 #include "Ticket.h"
 
-Ticket::Ticket(const std::string &passengerName, const std::string &flightNumber, const std::string &date, int row, int seat)
-        : passengerName(passengerName), flightNumber(flightNumber), date(date), row(row), seat(seat), isBooked(true) {}
+Ticket::Ticket(const std::string &passengerName, const std::string &flightNumber, const std::string &date, int row, int seat, const std::string &ticketID)
+        : passengerName(passengerName), flightNumber(flightNumber), date(date), row(row), seat(seat), ticketID(ticketID), isBooked(true) {}
 
 std::string Ticket::getPassengerName() const {
     return passengerName;
@@ -21,6 +21,10 @@ int Ticket::getRow() const {
 
 int Ticket::getSeat() const {
     return seat;
+}
+
+std::string Ticket::getTicketID() const {
+    return ticketID;
 }
 
 bool Ticket::getBookingStatus() const {
