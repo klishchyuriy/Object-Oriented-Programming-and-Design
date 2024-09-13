@@ -6,8 +6,8 @@
 int main() {
     std::vector<Airplane> airplanes = FileReader::readConfigFile("/Users/klishchyuriy/Desktop/OOP/Object-Oriented-Programming-and-Design/AssignmentOne/flights.txt");
 
+    std::string command;
     while (true) {
-        std::string command;
         std::cout << "> ";
         std::cin >> command;
 
@@ -27,11 +27,7 @@ int main() {
 
             for (auto &airplane : airplanes) {
                 if (airplane.getDate() == date && airplane.getFlightNumber() == flightNumber) {
-                    if (airplane.bookSeat(row, seat, passengerName)) {
-                        std::cout << "Seat booked successfully for " << passengerName << std::endl;
-                    } else {
-                        std::cout << "Seat not available!" << std::endl;
-                    }
+                    airplane.bookSeat(row, seat, passengerName);
                 }
             }
         } else if (command == "return") {
@@ -39,13 +35,18 @@ int main() {
             int row, seat;
             std::cin >> date >> flightNumber >> row >> seat;
 
-            for (auto &airplane : airplanes) {
+            for (auto &airplane: airplanes) {
                 if (airplane.getDate() == date && airplane.getFlightNumber() == flightNumber) {
-                    if (airplane.returnSeat(row, seat)) {
-                        std::cout << "Ticket returned successfully!" << std::endl;
-                    } else {
-                        std::cout << "Seat not found or not booked!" << std::endl;
-                    }
+                    airplane.returnSeat(row, seat);
+                }
+            }
+        } else if (command == "view") {
+            std::string date, flightNumber;
+            std::cin >> date >> flightNumber;
+
+            for (const auto &airplane : airplanes) {
+                if (airplane.getDate() == date && airplane.getFlightNumber() == flightNumber) {
+                    airplane.viewTickets();
                 }
             }
         } else if (command == "exit") {

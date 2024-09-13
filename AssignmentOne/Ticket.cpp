@@ -26,3 +26,7 @@ int Ticket::getSeat() const {
 bool Ticket::getBookingStatus() const {
     return isBooked;
 }
+
+void Ticket::setBookingStatus(bool status) {
+    isBooked = status;
+}

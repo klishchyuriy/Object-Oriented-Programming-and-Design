@@ -21,6 +21,7 @@ public:
     int getRow() const;
     int getSeat() const;
     bool getBookingStatus() const;
+    void setBookingStatus(bool status);
 };
 
 #endif
