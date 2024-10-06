@@ -4,6 +4,8 @@
 #include "Circle.h"
 #include "Rectangle.h"
 #include "Triangle.h"
+#include "Square.h"
+#include "Line.h"
 
 int main() {
     Board board;
@@ -33,7 +35,15 @@ int main() {
                 int x, y, height;
                 std::cin >> x >> y >> height;
                 board.addShape(std::make_shared<Triangle>(x, y, height));
-            } else {
+            } else if (shapeType == "square") {
+                int x, y, size;
+                std::cin >> x >> y >> size;
+                board.addShape(std::make_shared<Square>(x, y, size));
+            }else if (shapeType == "line") {
+                int x1, y1, x2, y2;
+                std::cin >> x1 >> y1 >> x2 >> y2;
+                board.addShape(std::make_shared<Line>(x1, y1, x2, y2));
+            }else {
                 std::cout << "Unknown shape type.\n";
             }
         } else if (command == "undo") {
