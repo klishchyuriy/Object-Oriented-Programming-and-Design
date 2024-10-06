@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 #include "Circle.h"
+#include "Rectangle.h"
 
 int main() {
     Board board;
@@ -23,6 +24,10 @@ int main() {
                 int x, y, radius;
                 std::cin >> x >> y >> radius;
                 board.addShape(std::make_shared<Circle>(x, y, radius));
+            }else if (shapeType == "rectangle") {
+                int x, y, width, height;
+                std::cin >> x >> y >> width >> height;
+                board.addShape(std::make_shared<Rectangle>(x, y, width, height));
             } else {
                 std::cout << "Unknown shape type.\n";
             }
