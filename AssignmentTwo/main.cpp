@@ -1,6 +1,7 @@
 #include "Board.h"
 #include <iostream>
-
+#include <memory>
+#include "Circle.h"
 
 int main() {
     Board board;
@@ -17,6 +18,14 @@ int main() {
         } else if (command == "add") {
             std::string shapeType;
             std::cin >> shapeType;
+
+            if (shapeType == "circle") {
+                int x, y, radius;
+                std::cin >> x >> y >> radius;
+                board.addShape(std::make_shared<Circle>(x, y, radius));
+            } else {
+                std::cout << "Unknown shape type.\n";
+            }
         } else if (command == "undo") {
             board.undo();
         } else if (command == "clear") {
