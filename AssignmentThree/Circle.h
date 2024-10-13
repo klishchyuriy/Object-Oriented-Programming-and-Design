@@ -2,14 +2,14 @@
 #define CIRCLE_H
 
 #include "Shape.h"
-#include <iostream>
 
 class Circle : public Shape {
-private:
-    int x, y, radius;
+    int radius;
 
 public:
-    Circle(int x, int y, int radius);
+    Circle(int x, int y, int radius, const std::string& color, bool filled)
+            : Shape(x, y, color, filled), radius(radius) {}
+
     void draw(std::vector<std::vector<char>>& board) const override;
     void print() const override;
 };

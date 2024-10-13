@@ -2,14 +2,14 @@
 #define RECTANGLE_H
 
 #include "Shape.h"
-#include <iostream>
 
 class Rectangle : public Shape {
-private:
-    int x, y, width, height;
+    int width, height;
 
 public:
-    Rectangle(int x, int y, int width, int height);
+    Rectangle(int x, int y, int width, int height, const std::string& color, bool filled)
+            : Shape(x, y, color, filled), width(width), height(height) {}
+
     void draw(std::vector<std::vector<char>>& board) const override;
     void print() const override;
 };
