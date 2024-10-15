@@ -90,6 +90,14 @@ int main() {
             std::cin >> shapeIndex >> newX >> newY;
 
             board.moveShape(shapeIndex - 1, newX, newY);
+        } else if (command == "remove") {
+            int shapeIndex;
+            std::cin >> shapeIndex;
+            board.removeShape(shapeIndex - 1);
+        } else if (command == "select") {
+            int shapeIndex;
+            std::cin >> shapeIndex;
+            board.selectShape(shapeIndex - 1);
         } else if (command == "undo") {
             board.undo();
         } else if (command == "clear") {

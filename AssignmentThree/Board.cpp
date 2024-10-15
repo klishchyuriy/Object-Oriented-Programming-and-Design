@@ -5,7 +5,7 @@
 const int BOARD_WIDTH = 80;
 const int BOARD_HEIGHT = 25;
 
-Board::Board() : grid(BOARD_HEIGHT, std::vector<char>(BOARD_WIDTH, ' ')) {}
+Board::Board() : grid(BOARD_HEIGHT, std::vector<char>(BOARD_WIDTH, ' ')), selectedShapeIndex(-1) {}
 
 void Board::draw() {
     grid.assign(BOARD_HEIGHT, std::vector<char>(BOARD_WIDTH, ' '));
@@ -100,5 +100,23 @@ void Board::paintShape(int shapeIndex, const std::string& newColor) {
         std::cout << "Shape painted successfully.\n";
     } else {
         std::cout << "Invalid shape index.\n";
+    }
+}
+
+void Board::removeShape(int shapeIndex) {
+    if (shapeIndex >= 0 && shapeIndex < shapes.size()) {
+        shapes.erase(shapes.begin() + shapeIndex);
+        std::cout << "Shape " << shapeIndex + 1 << " removed.\n";
+    } else {
+        std::cout << "Shape was not found\n";
+    }
+}
+
+void Board::selectShape(int shapeIndex) {
+    if (shapeIndex >= 0 && shapeIndex < shapes.size()) {
+        selectedShapeIndex = shapeIndex;
+        std::cout << "Shape " << shapeIndex + 1 << " selected.\n";
+    } else {
+        std::cout << "Shape was not found\n";
     }
 }

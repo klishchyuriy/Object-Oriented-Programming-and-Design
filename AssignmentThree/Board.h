@@ -10,6 +10,7 @@ class Board {
 private:
     std::vector<std::vector<char>> grid;
     std::vector<std::shared_ptr<Shape>> shapes;
+    int selectedShapeIndex;
 
 public:
     Board();
@@ -23,6 +24,8 @@ public:
     void editShape(int shapeIndex, const std::vector<int>& newParams);
     void moveShape(int shapeIndex, int newX, int newY);
     void paintShape(int shapeIndex, const std::string& newColor);
+    void removeShape(int shapeIndex);
+    void selectShape(int shapeIndex);
 };
 
 #endif
