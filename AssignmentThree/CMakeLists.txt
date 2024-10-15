@@ -16,4 +16,5 @@ add_executable(AssignmentThree main.cpp
         Line.cpp
         Line.h
         Square.cpp
-        Square.h)
+        Square.h
+        Triangle.cpp)
