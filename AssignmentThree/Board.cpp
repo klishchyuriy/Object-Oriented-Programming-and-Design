@@ -58,7 +58,7 @@ void Board::save(const std::string& filePath) {
     }
 
     for (const auto& shape : shapes) {
-        shape->print();
+        shape->print();  // Modify this if you want to serialize shapes to a file
     }
     file.close();
     std::cout << "Board saved to " << filePath << "\n";
@@ -71,7 +71,34 @@ void Board::load(const std::string& filePath) {
         return;
     }
 
-    shapes.clear();
+    shapes.clear();  // Modify this to load actual shape data
     file.close();
     std::cout << "Board loaded from " << filePath << "\n";
+}
+
+void Board::editShape(int shapeIndex, const std::vector<int>& newParams) {
+    if (shapeIndex >= 0 && shapeIndex < shapes.size()) {
+        shapes[shapeIndex]->edit(newParams);
+        std::cout << "Shape edited successfully.\n";
+    } else {
+        std::cout << "Invalid shape index.\n";
+    }
+}
+
+void Board::moveShape(int shapeIndex, int newX, int newY) {
+    if (shapeIndex >= 0 && shapeIndex < shapes.size()) {
+        shapes[shapeIndex]->move(newX, newY);
+        std::cout << "Shape moved successfully.\n";
+    } else {
+        std::cout << "Invalid shape index.\n";
+    }
+}
+
+void Board::paintShape(int shapeIndex, const std::string& newColor) {
+    if (shapeIndex >= 0 && shapeIndex < shapes.size()) {
+        shapes[shapeIndex]->paint(newColor);
+        std::cout << "Shape painted successfully.\n";
+    } else {
+        std::cout << "Invalid shape index.\n";
+    }
 }

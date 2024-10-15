@@ -20,6 +20,9 @@ public:
     void clear();
     void save(const std::string& filePath);
     void load(const std::string& filePath);
+    void editShape(int shapeIndex, const std::vector<int>& newParams);
+    void moveShape(int shapeIndex, int newX, int newY);
+    void paintShape(int shapeIndex, const std::string& newColor);
 };
 
 #endif
