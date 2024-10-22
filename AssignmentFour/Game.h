@@ -1,6 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
-
+#pragma once
 #include "Snake.h"
 #include "Apple.h"
 
@@ -9,16 +7,20 @@ class Game
 public:
     Snake snake;
     Apple apple;
-    bool isRunning;
-    int currentScore;
+    BonusApple bonusApple;
+    bool running;
+    int score;
+    int maxSnakeSize;
+    bool gameWon;
+    double winDisplayTime;
 
     Game();
-    void render();
-    void updateLogic();
-    void snakeEatsApple();
-    void snakeHitsWall();
-    void snakeHitsSelf();
-    void endGame();
+    void Draw() const;
+    void Update();
+    void HandleAppleCollision();
+    void HandleBonusAppleCollision();
+    void HandleEdgeCollision();
+    void HandleTailCollision();
+    void EvaluateWinCondition();
+    void GameOver();
 };
-
-#endif

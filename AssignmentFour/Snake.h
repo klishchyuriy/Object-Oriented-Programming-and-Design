@@ -1,19 +1,17 @@
-#ifndef SNAKE_H
-#define SNAKE_H
-
+#pragma once
 #include <raylib.h>
 #include <deque>
 
 class Snake
 {
 public:
-    std::deque<Vector2> body;  // Тіло змії
-    Vector2 movementDirection;  // Напрямок руху змії
+    std::deque<Vector2> body;
+    Vector2 direction;
+    bool addSegment;
+    int bonusSegmentCount;
 
-    Snake();  // Конструктор для ініціалізації змії
-    void render();  // Відповідає за відображення змії на екрані
-    void move();  // Оновлює положення змії на карті
-    void reset();  // Скидає змію до початкового стану
+    Snake();
+    void Draw() const;
+    void ProcessGameUpdate();
+    void Reset();
 };
-
-#endif
