@@ -12,7 +12,6 @@ int main()
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        game.updateLogic();
         game.render();
 
         EndDrawing();
